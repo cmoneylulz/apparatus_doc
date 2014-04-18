@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<h2>Tutorial:</h2>
+
+<h3>Part 1: Requirements</h3>
+<ul>
+    <li>A browser that supports javascript</li>
+    <li>Any text editor</li>
+    <li>The JQuery javascript library</li>
+    <li>The Jasmine javascript library</li>
+    <li>The Handlebars javascript library</li>
+</ul>
+<h3>Part 2: Class Responsibility Planning</h3>
+<p><h4>Model:</h4></p>
+<ol>
+    <li>
+        <code><a href="model/Player.js">Player.js</a></code>
+        <ul><b>Responsibilities:</b>
+            <li>Keep track of player score</li>
+            <li>Know winning score values</li>
+            <li>Know if this player is the winner</li>
+            <li>Check if the player has won the game following their turn</li>
+        </ul>
+    </li>
+    <li>
+        <code><a href="model/Square.js">Square.js</a></code>
+        <ul><b>Responsibilities:</b>
+            <li>Know how many points this square is worth</li>
+            <li>Know if this square occupied</li>
+            <li>Know which symbol is occupying this square</li>
+        </ul>
+    </li>
+    <li>
+        <code><a href="model/Board.js">Board.js</a></code>
+        <ul><b>Responsibilities:</b>
+            <li>Store a list of all the squares</li>
+            <li>Know the value of each square on the board</li>
+            <li>Mark a square and update the players score if successful</li>
+        </ul>
+    </li>
+    <li>
+        <code><a href="model/Game.js">Game.js</a></code>
+        <ul><b>Responsibilities:</b>
+            <li>Keep track of whose turn it is</li>
+            <li>Allow a player to take a turn</li>
+            <li>Check to see if the game has been won</li>
+            <li>Announce the winner of the game</li>
+        </ul>
+    </li>
+</ol>
+<p><h4>Controller:</h4></p>
+<ol>
+    <li>
+        <code><a href="controller/gameController.js">gameController.js</a></code>
+        <ul><b>Responsibilities:</b>
+            <li>Update the html code to display correct markers</li>
+            <li>Create a new game</li>
+            <li>Control program flow</li>
+            <li>Announce the winner of the game</li>
+        </ul>
+    </li>
+    <li>
+        <code><a href="controller/publishSubscribe.js">publishSubscribe.js</a></code>
+        <ul><b>Responsibilities:</b>
+            <li>Extend the jquery library</li>
+            <li>Allow classes to subscribe to an event</li>
+            <li>Allow classes to unsubscribe to an event</li>
+            <li>Allow classes to publish events of a specific type</li>
+        </ul>
+    </li>
+</ol>
+<h3>Part 3: Configuring the Jasmine test suite</h3>
+<ol>
+    <li>Download the Jasmine library</li>
+    <li>Create a new test directory for your project and copy the Jasmine library to that folder</li>
+    <li>Open <code><a href="test/SpecRunner.html">SpecRunner.html</a></code>
+        <ul>
+            <li>Include your models</li>
+            <li>Include your test classes</li>
+        </ul>
+    </li>
+    <li>Create test classes for all of your model classes
+        <ul>
+            <li>Use ModelNameSpec as the naming convention</li>
+            <li>Be sure to test:
+                <ul>
+                    <li>Squares cannot be used twice</li>
+                    <li>Storing the correct player marker for a square</li>
+                    <li>Updating player score</li>
+                    <li>Turn order</li>
+                    <li>Win conditions</li>
+                </ul>
+            </li>
+        </ul>
+        Example Test Case Setup:
+        <code><pre>
+    describe("when testing MyClass", function () {
+        "use strict";
+
+        //test class declaration
+        var aClass;
+
+        //init test class
+        beforeEach(function () {
+            aClass = new MyClass();
+        });
+
+        //test cases here
+        it("should test this method", function () {
+            expect(aClass.method()).toBe(EXPECTED_VALUE);
+        });
+    });
+        </pre></code>
+    </li>
+    <li>Open <code>SpecRunner.html</code> in your browser to verify test cases pass</li>
+</ol>
+<h3>Part 4: <code>index.html</code></h3>
+<ol>
+    <li>Create a new file called index.html in your root directory</li>
+    <li>Link your style sheet</li>
+    <li>Use script tags to link the following js libraries
+        <ul>
+            <li><code>jquery.min.js</code></li>
+            <li><code>handlebars-v1.3.0.js</code></li>
+            <li><code>model/Game.js</code></li>
+            <li><code>model/Board.js</code></li>
+            <li><code>model/Square.js</code></li>
+            <li><code>model/Player.js</code></li>
+            <li><code>controller/publishSubscribe.js</code></li>
+        </ul>
+    </li>
+    <li>Add handlebar template code as follows
+        <ul>
+            <li>Create a new script tag and set id="board-template" type="text/x-handlebars-template" inside the tag</li>
+            <li>Inside the script tags create a simple table with id="tictactoe" with only one row and one column</li>
+            <li>Add {{#each board}} in front of the opening tr tag. Add {{/each}} after the closing tr tag</li>
+            <li>Add {{#each this}} in front of the opening td tag. Add {{/each}} after the closing td tag</li>
+            <li>Set the td id="{{this}}"</li>
+            <li>The "{{#each collectionName}}" tags tell handlebars to repeat the dom listed for each member of the collection specified</li>
+            <li>The template is rendered when gameController calls the compile method</li>
+        </ul>
+        <br />Example Code:<br />
+        Check <a href="index.html">index.html</a>'s source code to see how I implemented the template.
+    </li>
+    <li>Import <code>controller/gameController.js</code></li>
+    <li>Add markup to the body section to draw game board</li>
+</ol>
+<h3>Part 5: <code>style.css</code></h3>
+<ol>
+    <li>Set cell dimensions</li>
+    <li>Set board size</li>
+    <li>Set any other style settings you wish</li>
+</ol>
+<h3>Part 6: Implement Publish Subscribe Model</h3>
+<ol>
+    <li>Declare <code>var o = $({});</code> to extend jquery library</li>
+    <li>Use <code>o.on.apply(o, arguments);</code> to create subscribe method</li>
+    <li>Use <code>o.off.apply(o, arguments);</code> to create un-subscribe method</li>
+    <li>Use <code>o.trigger.apply(o, arguments);</code> to create publish method</li>
+    <li>Check <a href="controller/publishSubscribe.js">publishSubscribe.js</a> to see my implementation</li>
+</ol>
+<h3>Part 7: Add game control logic to gameController</h3>
+<ol>
+    <li>Create board namespace using <code>var BOARD_NAMESPACE = BOARD_NAMESPACE || {}</code></li>
+    <li>Create handleMarkSquare method to handle player turn input</li>
+    <li>Create handleClick method to handle the player interacting with the view DOM</li>
+    <li>Create addClickHandlers to assign the handlers to their DOM elements</li>
+    <li>Create compile method for Handlebars template</li>
+    <li>Subscribe to the markSquare event</li>
+</ol>
+<h3>Launch the game by visiting <a href="index.html">index.html</a> in your browser.</h3><br />
+Feel free to check my source code if your having trouble implementing any classes or methods.
+</body>
+</html>

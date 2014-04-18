@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Christopher Wilson's Portfolio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/override.css" />
+    <script src="/lib/jquery-2.0.3.min.js"></script>
+    <script src="/js/bootstrap.js"></script>
+</head>
+<body>
+    <!-- navigation -->
+    <div class="navbar navbar-default">
+        <div class="container">  
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">My Portfolio</a>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Home</a></li>
+                    <li><a href="/cemc_apparatus/index.php">Substation Readings</a></li>
+                    <li><a href="#">Link2</a></li>
+                    <li><a href="#">Link3</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- end navigation -->
+    <!-- begin content -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12">
+	            <div class="panel panel-primary">
+	                <div class="panel-heading">
+	                    <h3>Web Application Development Project Introduction</h3>
+                    </div>
+	                <div class="panel-body">
+                        <h4>
+                        <p>
+                            For my internship with Carroll EMC, I was tasked with developing a custom web application to manage monthly 
+                            readings on the various power substations owned by the co-op. Previously, CEMC relied on a large excel sheet
+                            consisting of all the form data for every substation all in one giant spreadsheet. Because the spreadsheet 
+                            required a laptop running excel, the readings were often conducted using pen and paper and then manually
+                            re-entered into the spreadsheet upon returning to the office. By upgrading these forms into a web application,
+                            I hoped to not only save our engineers a great deal of extra labor, but also allow CEMC to further its 
+                            goals of becoming a paperless company.
+                        </p>     
+                        </h4>
+	                </div>
+                </div>
+            </div>
+        </div><!-- end row -->
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3>Acceptance Criteria</h3>
+                    </div>
+                    <div class="panel-body">
+                        <h4>
+                        <p>
+                            Before starting on my project, I needed to determine what features were needed by the engineers in order to
+                            make my application worth switching to. Using the current excel forms and input by CEMC engineers and their
+                            supervisors, I came up with the following acceptance criteria.
+                        </p>
+                        <p>
+                            The Application Must:
+                        </p>
+                        <ul>
+                            <li>Store all the form information for the 24 sub stations</li>
+                            <li>Maintain a stable database to store the collected readings</li>
+                            <li>Be accessable from a mobile device</li>
+                            <li>Be accessable from any computer</li>
+                            <li>Be easily extendable in the event new substations are added</li>
+                            <li>Be reasonably secure</li>
+                        </ul>
+                        </h4>
+                    </div>
+                </div>
+            </div>
+        </div><!-- end row -->
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3>Storing The Form Data</h3>
+                    </div>
+                    <div class="panel-body">
+                        <h4>
+                        <p>
+                            My first task was coming up with a means of storing the form information for the individual substations. With 24
+                            substations, each with their own unique form fields, it seemed impractical to hard code individual pages for each
+                            substation. While 24 form pages is not an outrageous amount to code, bringing up past form results for each substation
+                            would have required a great deal more conditional logic than necessary. I also wanted to be sure that if another
+                            substation was built, it could be easily added to the application without considerable effort.
+                        </p>
+                        <p>
+                            Knowing that I would need a database in place to serve as persistent storage for the forms themselves, I decided to
+                            store the form information for the various substations in the database as well. For this purpose, I decided to use
+                            MySQL because it is both open source, and offers a strong relational database architecture. I began by finding the 
+                            lowest common denominator between the substations. All substations have a name based on their relative location. In 
+                            addition, each substation is made up of regulators and breakers, whose attributes vary. To represent these models I 
+                            created the following relationship schemas:
+                        </p>
+                        </h4>
+                        <h4><p>station:</p></h4>
+                        <table class="table">
+                            <thead>
+                                <tr class="info">
+                                    <th>Field Name</th>
+                                    <th>Data Type</th>
+                                    <th>Purpose</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>station_id</td>
+                                    <td>int</td>
+                                    <td>primary key</td>
+                                </tr>
+                                <tr>
+                                    <td>station_name</td>
+                                    <td>varchar</td>
+                                    <td>the name of the substation</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <h4><p>station_regulator</p></h4>
+                        <table class="table">
+                            <thead>
+                                <tr class="info">
+                                    <th>Field Name</th>
+                                    <th>Data Type</th>
+                                    <th>Purpose</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>regulator_id</td>
+                                    <td>int</td>
+                                    <td>primary key</td>
+                                </tr>
+                                <tr>
+                                    <td>regulator_station_id</td>
+                                    <td>int</td>
+                                    <td>foreign key to station_id</td>
+                                </tr>
+                                <tr>
+                                    <td>regulator_name</td>
+                                    <td>varchar</td>
+                                    <td>the name of the regulator</td>
+                                </tr>
+                                <tr>
+                                    <td>regulator_amp_header</td>
+                                    <td>int</td>
+                                    <td>the custom label for the type of amps used</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <h4><p>station_breaker</p></h4>
+                        <table class="table">
+                            <thead>
+                                <tr class="info">
+                                    <th>Field Name</th>
+                                    <th>Data Type</th>
+                                    <th>Purpose</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>breaker_id</td>
+                                    <td>int</td>
+                                    <td>primary key</td>
+                                </tr>
+                                <tr>
+                                    <td>breaker_station_id</td>
+                                    <td>int</td>
+                                    <td>foreign key to station_id</td>
+                                </tr>
+                                <tr>
+                                    <td>breaker_name</td>
+                                    <td>varchar</td>
+                                    <td>the name of the breaker</td>
+                                </tr>
+                                <tr>
+                                    <td>breaker_mult_header</td>
+                                    <td>int</td>
+                                    <td>the custome label for the mult reading of this breaker</td>
+                                </tr>
+                                <tr>
+                                    <td>breaker_has_mult</td>
+                                    <td>boolean</td>
+                                    <td>whether or not this breaker has a mult reading</td>
+                                </tr>
+                                <tr>
+                                    <td>breaker_has_amp</td>
+                                    <td>boolean</td>
+                                    <td>whether or not this breaker has an amp reading</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div><!-- end row -->
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3>Persistant Storage of Substation Readings</h3>
+                    </div>
+                    <div class="panel-body">
+                        <h4>
+                        <p>
+                            In addition to storing the form headers themselves, I also needed to create tables to store the readings 
+                            themselves. I decided to break the readings down into their simplest elements: regulator readings and 
+                            breaker readings. After some careful planning, I came up with the following schema.
+                        </p>
+                        </h4>
+                        <h4>station_read</h4>
+                        <table class="table">
+                            <thead>
+                                <tr class="info">
+                                    <th>Field Name</th>
+                                    <th>Data Type</th>
+                                    <th>Purpose</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>station_read_id</td>
+                                    <td>id</td>
+                                    <td>primary key</td>
+                                </tr>
+                                <tr>
+                                    <td>read_date</td>
+                                    <td>date</td>
+                                    <td>the date the reading was taken</td>
+                                </tr>
+                                <tr>
+                                    <td>station_id</td>
+                                    <td>int</td>
+                                    <td>foreign key for station id</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <h4>station_regulator_read</h4>
+                        <table class="table">
+                            <thead>
+                                <tr class="info">
+                                    <th>Field Name</th>
+                                    <th>Data Type</th>
+                                    <th>Purpose</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>regulator_read_id</td>
+                                    <td>int</td>
+                                    <td>primary key</td>
+                                </tr>
+                                <tr>
+                                    <td>read_id</td>
+                                    <td>int</td>
+                                    <td>foreign key to station_read_id</td>
+                                </tr>
+                                <tr>
+                                    <td>regulator_id</td>
+                                    <td>int</td>
+                                    <td>foreign key to regulator_read_id</td>
+                                </tr>
+                                <tr>
+                                    <td>read_date</td>
+                                    <td>date</td>
+                                    <td class="danger">date of the reading (redundant)</td>
+                                </tr>
+                                <tr>
+                                    <td>a_count</td>
+                                    <td>int</td>
+                                    <td>the count for a</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <h4>breaker_read</h4>
+                        <table class="table">
+                            <thead>
+                                <tr class="info">
+                                    <th>Field Name</th>
+                                    <th>Data Type</th>
+                                    <th>Purpose</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>...</td>
+                                    <td>...</td>
+                                    <td>...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div><!-- end row -->
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3>Preparing for Universal Accessability</h3>
+                    </div>
+                    <div class="panel-body">
+                        <h4>
+                        <p>
+                            By this point I knew that the application needed to be compatible with any device. Normally the twitter
+                            bootstrap would achieve this goal nicely; however, due to the very custom nature of the application, I
+                            decided to write my own stylesheets for the program.
+                        </p>
+                        <p>
+                            The main problem of creating universally accessable layouts is that most developers wait until the last
+                            minute to consider how their layout will look on mobile devices. I knew from the beginning that my 
+                            application would mostly be viewed from an iPad. I realized immediately that I would need to use as 
+                            absolute positioning and fixed dimension elements in my design as possible. When styling the 
+                            application, I used percentages to specify widths wherever possible. This allowed me to keep my core 
+                            layout identical between devices; however, my font sizes, borders, and form sizes did not scale well
+                            between devices. To remedy this, I used em widths to define these style rules. Unfortunately, there 
+                            are a few elements (like the select element) that would not appear correctly unless I specified a set
+                            height. For these values, I simply guessed and checked between devices until I was satisfied with the 
+                            results.
+                        </p>
+                        </h4>
+                    </div>
+                </div>
+            </div>
+        </div><!-- end row -->
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3>Allowing for Extension</h3>
+                    </div>
+                    <div class="panel-body">
+                        <h4>
+                        <p>
+                            Because I designed the application to generate forms dynamically based off of a database, All
+                            of the form attributes can be changed by altering the database information. A substation structure
+                            can be easily modified and with a few basic SQL commands, breakers and regulators can be added or
+                            removed as needed. New substations can also be created in the same way. The new changes are visible
+                            the next time a user accesses the application.
+                        </p>
+                        <p>
+                            I eventually plan on adding an extra admin interface to allow this new additions and edits to be
+                            conducted visually without the need of any prior SQL knowledge.
+                        </p>
+                        </h4>
+                    </div>
+                </div>
+            </div>
+        </div><!-- end row -->
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3>Preparing for Security Concerns</h3>
+                    </div>
+                    <div class="panel-body">
+                        <h4>
+                        <p>
+                        ...
+                        </p>
+                        </h4>
+                    </div>
+                </div>
+            </div>
+        </div><!-- end row -->
+    </div>
+    <!-- end content -->
+</body>
+</html>
