@@ -397,9 +397,89 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>...</td>
-                                    <td>...</td>
-                                    <td>...</td>
+                                    <td>breaker_read_id</td>
+                                    <td>int</td>
+                                    <td>primary key</td>
+                                </tr>
+                                <tr>
+                                    <td>read_id</td>
+                                    <td>int</td>
+                                    <td>foreign key to station_read</td>
+                                </tr>
+                                <tr>
+                                    <td>read_date</td>
+                                    <td>date</td>
+                                    <td class="danger">the date of the reading (REDUNDANT)</td>
+                                </tr>
+                                <tr>
+                                    <td>breaker_id</td>
+                                    <td>int</td>
+                                    <td>foreign key to breaker id</td>
+                                </tr>
+                                <tr>
+                                    <td>count</td>
+                                    <td>int</td>
+                                    <td>the count for this breaker</td>
+                                </tr>
+                                <tr>
+                                    <td>a_flag</td>
+                                    <td>int</td>
+                                    <td>a flags for this breaker</td>
+                                </tr>
+                                <tr>
+                                    <td>b_flag</td>
+                                    <td>int</td>
+                                    <td>b flags for this breaker</td>
+                                </tr>
+                                <tr>
+                                    <td>c_flag</td>
+                                    <td>int</td>
+                                    <td>c flags for this breaker</td>
+                                </tr>
+                                <tr>
+                                    <td>n_flag</td>
+                                    <td>int</td>
+                                    <td>n flags for this breaker</td>
+                                </tr>
+                                <tr>
+                                    <td>battery</td>
+                                    <td>int</td>
+                                    <td>battery reading for this breaker</td>
+                                </tr>
+                                <tr>
+                                    <td>comments</td>
+                                    <td>varchar</td>
+                                    <td>comments for this breaker</td>
+                                </tr>
+                                <tr>
+                                    <td>a_mult</td>
+                                    <td>int</td>
+                                    <td>the mult reading for a</td>
+                                </tr>
+                                <tr>
+                                    <td>b_mult</td>
+                                    <td>int</td>
+                                    <td>the mult reading for b</td>
+                                </tr>
+                                <tr>
+                                    <td>c_mult</td>
+                                    <td>int</td>
+                                    <td>the mult reading for c</td>
+                                </tr>
+                                <tr>
+                                    <td>a_amp</td>
+                                    <td>int</td>
+                                    <td>the amp reading for a</td>
+                                </tr>
+                                <tr>
+                                    <td>b_amp</td>
+                                    <td>int</td>
+                                    <td>the amp reading for b</td>
+                                </tr>
+                                <tr>
+                                    <td>c_amp</td>
+                                    <td>int</td>
+                                    <td>the amp reading for c</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -471,7 +551,18 @@
                     <div class="panel-body">
                         <h4>
                         <p>
-                            ...
+                            The final concern for the application was insuring that it was reasonably secure from unauthorized access.
+                            To accomplish this, I first made sure that all of my queries were called only after using mysql_real_escape_string()
+                            and used the mysqli library for any update / insertion operations. By using these functions, my code is reasonably 
+                            secure from basic sql injection. While the code is most likely not bullet proof, the data itself is not sensitive
+                            and the mysql server is independent of all other CEMC database servers. In addition, the currenly implemented application's
+                            mysql server is set to back up automatically in case of a catastrophic failure or intrusion. 
+                        </p>
+                        <p>
+                            Finally, I needed the ability for my users to have individual logins for the program. Because the list
+                            of users was reasonably small I did not bother to set up systems for creating new users from inside the application; however,
+                            I do plan on implementing this feature eventually. I set up user passwords with the standard salted hash encryptin for storage,
+                            and set a system in place to allow users to change their passwords from inside the application. 
                         </p>
                         </h4>
                     </div>
