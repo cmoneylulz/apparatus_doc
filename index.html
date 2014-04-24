@@ -11,7 +11,7 @@
 <body>
     <!-- navigation -->
     <div class="navbar navbar-default">
-        <div class="container">  
+        <div class="container-fluid">  
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="icon-bar"></span>
@@ -561,8 +561,10 @@
                         <p>
                             Finally, I needed the ability for my users to have individual logins for the program. Because the list
                             of users was reasonably small I did not bother to set up systems for creating new users from inside the application; however,
-                            I do plan on implementing this feature eventually. I set up user passwords with the standard salted hash encryptin for storage,
-                            and set a system in place to allow users to change their passwords from inside the application. 
+                            I do plan on implementing this feature eventually. I set up user passwords with the standard salted hash encryption for storage,
+                            and set a system in place to allow users to change their passwords from inside the application. Currently the application
+                            does not track which user created the reading because this was not a priority feature; however this functionality can easily
+                            be added by adding a creator field to the station read table.
                         </p>
                         </h4>
                     </div>
